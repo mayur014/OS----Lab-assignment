@@ -8,3 +8,19 @@ int pid;
 pthread_t tid;
 pthread_attr_t attr;
   pid = fork();
+  
+  if (pid == 0){     /* child process*/
+      pthread_attr_init(&attr);
+      pthread_create(&tid,&attr,runnner,NULL);
+      pthread_join(tid,NULL);
+      printf("CHILD: value = %d",value);
+}        
+else if (pid > 0) {  /* parent process */
+ wait(NULL);
+ printf("PARENT: value = %d",value);
+ }
+}
+void *runner(void *param) {
+ value = 5;
+ pthread_exit(0);
+ }
